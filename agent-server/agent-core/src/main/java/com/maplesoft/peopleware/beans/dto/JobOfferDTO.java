@@ -10,7 +10,8 @@ public class JobOfferDTO extends BaseDTO {
 	private BigInteger jobOfferId;	
 	private String name;
 	private String description;
-	private double salaryRange;
+	private double lowerSalaryRange;
+	private double upperSalaryRange;
 	private String workingTime;
 	private AcademicDegree academicDegree;
 	private TechnicalSkill technicalSkill;
@@ -32,11 +33,18 @@ public class JobOfferDTO extends BaseDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public double getSalaryRange() {
-		return salaryRange;
+
+	public double getLowerSalaryRange() {
+		return lowerSalaryRange;
 	}
-	public void setSalaryRange(double salaryRange) {
-		this.salaryRange = salaryRange;
+	public void setLowerSalaryRange(double lowerSalaryRange) {
+		this.lowerSalaryRange = lowerSalaryRange;
+	}
+	public double getUpperSalaryRange() {
+		return upperSalaryRange;
+	}
+	public void setUpperSalaryRange(double upperSalaryRange) {
+		this.upperSalaryRange = upperSalaryRange;
 	}
 	public String getWorkingTime() {
 		return workingTime;

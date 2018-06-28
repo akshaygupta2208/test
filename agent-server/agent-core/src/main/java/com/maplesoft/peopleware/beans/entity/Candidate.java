@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,12 +34,14 @@ public class Candidate {
 	@Column(name="working_time")
 	private String workingTime;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "academic_degree_id", insertable = false, updatable = false)
-	private Set<AcademicDegree> academicDegree= new HashSet<AcademicDegree>();
+	@OneToOne(fetch = FetchType.EAGER, optional=false)
+	@JoinColumn(name = "academic_degree_id")
+	private AcademicDegree academicDegree;
 	
 	@OneToMany(mappedBy="candidate", fetch = FetchType.EAGER)
 	private Set<CandidateTechnicalSkill> candidateTechnicalSkills = new HashSet<CandidateTechnicalSkill>();
+	
+	public Candidate() {}
 	
 	
 	public BigInteger getId() {
@@ -97,13 +100,16 @@ public class Candidate {
 		this.workingTime = workingTime;
 	}
 	
-	public Set<AcademicDegree> getAcademicDegree() {
+
+	public AcademicDegree getAcademicDegree() {
 		return academicDegree;
 	}
 
-	public void setAcademicDegree(Set<AcademicDegree> academicDegree) {
+
+	public void setAcademicDegree(AcademicDegree academicDegree) {
 		this.academicDegree = academicDegree;
 	}
+
 
 	public boolean isRegisteredCandidate(Candidate candidate) {
 	
@@ -117,5 +123,15 @@ public class Candidate {
 	public void setCandidateTechnicalSkills(Set<CandidateTechnicalSkill> candidateTechnicalSkills) {
 		this.candidateTechnicalSkills = candidateTechnicalSkills;
 	}
+
+	@Override
+	public String toString() {
+		return "Candidate [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", contact=" + contact + ", minimumSalary=" + minimumSalary + ", workingTime=" + workingTime
+				+ ", academicDegree=" + academicDegree + ", candidateTechnicalSkills=" + candidateTechnicalSkills + "]";
+	}
+
+	
+	
 	
 }

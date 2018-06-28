@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,20 +28,19 @@ public class JobOffer {
 	
 	private String name;
 	private String description;
-	private double salaryRange;
+	private double lowerSalaryRange;
+	private double upperSalaryRange;
 	private String workingTime;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "academic_degree_id", insertable = false, updatable = false)
 	private AcademicDegree academicDegree;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "pwr_job_offer_technical_skill",
-            joinColumns = @JoinColumn(name = "job_offer_id"),
-            inverseJoinColumns = @JoinColumn(name = "technical_skill_id"))
+	
+	@OneToMany(mappedBy="jobOffer", fetch = FetchType.EAGER)
 	private Set<TechnicalSkill> technicalSkills = new HashSet<TechnicalSkill>();
 	
+
 	public BigInteger getId() {
 		return id;
 	}
@@ -59,11 +59,30 @@ public class JobOffer {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public double getSalaryRange() {
-		return salaryRange;
+
+	public double getLowerSalaryRange() {
+		return lowerSalaryRange;
 	}
-	public void setSalaryRange(double salaryRange) {
-		this.salaryRange = salaryRange;
+	public void setLowerSalaryRange(double lowerSalaryRange) {
+		this.lowerSalaryRange = lowerSalaryRange;
+	}
+	public double getUpperSalaryRange() {
+		return upperSalaryRange;
+	}
+	public void setUpperSalaryRange(double upperSalaryRange) {
+		this.upperSalaryRange = upperSalaryRange;
+	}
+	public AcademicDegree getAcademicDegree() {
+		return academicDegree;
+	}
+	public void setAcademicDegree(AcademicDegree academicDegree) {
+		this.academicDegree = academicDegree;
+	}
+	public Set<TechnicalSkill> getTechnicalSkills() {
+		return technicalSkills;
+	}
+	public void setTechnicalSkills(Set<TechnicalSkill> technicalSkills) {
+		this.technicalSkills = technicalSkills;
 	}
 	public String getWorkingTime() {
 		return workingTime;

@@ -14,6 +14,7 @@
 
 
 	<context:annotation-config />
+	
 	<mvc:annotation-driven
 		content-negotiation-manager="contentNegotiationManager" />
 	<tx:annotation-driven transaction-manager="transactionManager" />

@@ -1,23 +1,24 @@
 package com.maplesoft.peopleware.beans.dto;
 
 import java.math.BigInteger;
+import java.util.Set;
 
 import com.maplesoft.peopleware.beans.entity.AcademicDegree;
+import com.maplesoft.peopleware.beans.entity.CandidateTechnicalSkill;
 import com.maplesoft.peopleware.beans.entity.JobOffer;
-import com.maplesoft.peopleware.beans.entity.TechnicalSkill;
 
 public class CandidateDTO extends BaseDTO{
 
-	private BigInteger candidateId;
+	private BigInteger id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String contact;
 	private double minimumSalary;
 	private String workingTime;
-	private AcademicDegree academicDegree;
-	private TechnicalSkill technicalSkill;
+	private Set<CandidateTechnicalSkill> candidateTechnicalSkills;
 	private JobOffer jobOffer;
+	private AcademicDegree academicDegree;
 
 	
 	
@@ -27,11 +28,12 @@ public class CandidateDTO extends BaseDTO{
 	public void setJobOffer(JobOffer jobOffer) {
 		this.jobOffer = jobOffer;
 	}
-	public BigInteger getCandidateId() {
-		return candidateId;
+
+	public BigInteger getId() {
+		return id;
 	}
-	public void setCandidateId(BigInteger candidateId) {
-		this.candidateId = candidateId;
+	public void setId(BigInteger id) {
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -69,18 +71,20 @@ public class CandidateDTO extends BaseDTO{
 	public void setWorkingTime(String workingTime) {
 		this.workingTime = workingTime;
 	}
+	public Set<CandidateTechnicalSkill> getCandidateTechnicalSkills() {
+		return candidateTechnicalSkills;
+	}
+	public void setCandidateTechnicalSkills(Set<CandidateTechnicalSkill> candidateTechnicalSkills) {
+		this.candidateTechnicalSkills = candidateTechnicalSkills;
+	}
 	public AcademicDegree getAcademicDegree() {
 		return academicDegree;
 	}
 	public void setAcademicDegree(AcademicDegree academicDegree) {
 		this.academicDegree = academicDegree;
 	}
-	public TechnicalSkill getTechnicalSkill() {
-		return technicalSkill;
-	}
-	public void setTechnicalSkill(TechnicalSkill technicalSkill) {
-		this.technicalSkill = technicalSkill;
-	}
+
+
 
 
 }

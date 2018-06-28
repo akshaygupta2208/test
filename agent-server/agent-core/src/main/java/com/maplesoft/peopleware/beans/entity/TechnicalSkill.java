@@ -22,9 +22,12 @@ public class TechnicalSkill {
 	private BigInteger id;
 	private String name;
 	
+	@OneToMany(mappedBy="jobOfferTechnicalSkill", fetch = FetchType.EAGER)
+	private Set<JobOfferTechnicalSkill> jobOfferTechnicalSkill = new HashSet<JobOfferTechnicalSkill>();
+
 	@OneToMany(mappedBy="technicalSkill", fetch = FetchType.EAGER)
 	private Set<CandidateTechnicalSkill> candidateTechnicalSkills = new HashSet<CandidateTechnicalSkill>();
-
+	
 	public BigInteger getId() {
 		return id;
 	}
@@ -47,6 +50,14 @@ public class TechnicalSkill {
 
 	public void setCandidateTechnicalSkills(Set<CandidateTechnicalSkill> candidateTechnicalSkills) {
 		this.candidateTechnicalSkills = candidateTechnicalSkills;
+	}
+
+	public Set<JobOfferTechnicalSkill> getJobOfferTechnicalSkill() {
+		return jobOfferTechnicalSkill;
+	}
+
+	public void setJobOfferTechnicalSkill(Set<JobOfferTechnicalSkill> jobOfferTechnicalSkill) {
+		this.jobOfferTechnicalSkill = jobOfferTechnicalSkill;
 	}
 
 	

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pwr_acedemic_degree")
+@Table(name="pwr_academic_degree")
 public class AcademicDegree {
 	@Id
 	@Column(name="academic_degree_id", columnDefinition = "bigint")

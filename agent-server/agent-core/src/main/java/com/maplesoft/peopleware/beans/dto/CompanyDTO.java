@@ -1,21 +1,23 @@
 package com.maplesoft.peopleware.beans.dto;
 
 import java.math.BigInteger;
+import java.util.Set;
 
 import com.maplesoft.peopleware.beans.entity.JobOffer;
 
 public class CompanyDTO extends BaseDTO {
 
-	private BigInteger companyId;
+	private BigInteger id;
 	private String name;
 	private String contact;
-	private JobOffer jobOffer;
+	private Set<JobOffer> jobOffers;
 	
-	public BigInteger getCompanyId() {
-		return companyId;
+
+	public BigInteger getId() {
+		return id;
 	}
-	public void setCompanyId(BigInteger companyId) {
-		this.companyId = companyId;
+	public void setId(BigInteger id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -29,11 +31,12 @@ public class CompanyDTO extends BaseDTO {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	public JobOffer getJobOffer() {
-		return jobOffer;
+	public Set<JobOffer> getJobOffers() {
+		return jobOffers;
 	}
-	public void setJobOffer(JobOffer jobOffer) {
-		this.jobOffer = jobOffer;
+	public void setJobOffers(Set<JobOffer> jobOffers) {
+		this.jobOffers = jobOffers;
 	}
+
 	
 }

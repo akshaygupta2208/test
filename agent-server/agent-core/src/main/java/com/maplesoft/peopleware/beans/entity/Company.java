@@ -27,7 +27,7 @@ public class Company {
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "job_offer_id", insertable = false, updatable = false)
-	private Set<JobOffer> jobOffer = new HashSet<JobOffer>();
+	private Set<JobOffer> jobOffers = new HashSet<JobOffer>();
 
 	public BigInteger getId() {
 		return id;
@@ -53,13 +53,14 @@ public class Company {
 		this.contact = contact;
 	}
 
-	public Set<JobOffer> getJobOffer() {
-		return jobOffer;
+	public Set<JobOffer> getJobOffers() {
+		return jobOffers;
 	}
 
-	public void setJobOffer(Set<JobOffer> jobOffer) {
-		this.jobOffer = jobOffer;
+	public void setJobOffers(Set<JobOffer> jobOffers) {
+		this.jobOffers = jobOffers;
 	}
+
 
 	
 }
