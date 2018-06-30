@@ -1,6 +1,5 @@
 package com.maplesoft.peopleware.service.impl;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +15,8 @@ import com.maplesoft.peopleware.beans.dto.AcademicDegreeDTO;
 import com.maplesoft.peopleware.beans.dto.AcademicDegreeWrapper;
 import com.maplesoft.peopleware.beans.dto.CandidateDTO;
 import com.maplesoft.peopleware.beans.dto.CandidateWrapper;
+import com.maplesoft.peopleware.beans.dto.CompanyDTO;
+import com.maplesoft.peopleware.beans.dto.CompanyWrapper;
 import com.maplesoft.peopleware.beans.dto.JobOfferDTO;
 import com.maplesoft.peopleware.beans.dto.JobOfferWrapper;
 import com.maplesoft.peopleware.beans.dto.TechnicalSkillDTO;
@@ -23,6 +24,7 @@ import com.maplesoft.peopleware.beans.dto.TechnicalSkillWrapper;
 import com.maplesoft.peopleware.beans.entity.AcademicDegree;
 import com.maplesoft.peopleware.beans.entity.Candidate;
 import com.maplesoft.peopleware.beans.entity.CandidateTechnicalSkill;
+import com.maplesoft.peopleware.beans.entity.Company;
 import com.maplesoft.peopleware.beans.entity.JobOffer;
 import com.maplesoft.peopleware.beans.entity.TechnicalSkill;
 import com.maplesoft.peopleware.dao.PeoplewareDAO;
@@ -94,7 +96,7 @@ public class PeoplewareServiceImpl implements PeoplewareService{
 		}
 		
 		awp.setAcademicDegreeList(tempList);
-		
+		response.setBaseDTO(awp);
 		response.setMessage("Fetch initial form data getAcademicDegreeList");
 		response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
 		} catch(Exception e) {
@@ -152,6 +154,9 @@ public class PeoplewareServiceImpl implements PeoplewareService{
 			}
 			
 			jwp.setJobOfferList(tempList);
+			response.setBaseDTO(jwp);
+			response.setMessage("List of Job offers");
+			response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
 			}catch(Exception e) {
 				LOGGER.error(e);
 				response.setErrorMessage(e.getMessage());
@@ -179,7 +184,7 @@ public class PeoplewareServiceImpl implements PeoplewareService{
 		}
 		
 		twp.setTechnicalSkillList(tempList);
-		
+		response.setBaseDTO(twp);
 		response.setMessage("Fetch initial form data");
 		response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
 		
@@ -197,19 +202,20 @@ public class PeoplewareServiceImpl implements PeoplewareService{
 		LOGGER.info("start executing qualifiedCandidates");		
 		BaseResponse response = new BaseResponse();
 		ModelMapper mapper = new ModelMapper();
-		List<Candidate> finalList = new ArrayList<Candidate>();
+		CandidateWrapper cwp =  new CandidateWrapper();
+		List<CandidateDTO> finalList = new ArrayList<CandidateDTO>();
 		Candidate candidate = null;
 		try{
 			
-			JobOffer jobOfferDetail = peoplewareDAO.getJobOffer(jobOfferDTO.getJobOfferId());
+			JobOffer jobOfferDetail = peoplewareDAO.getJobOffer(jobOfferDTO.getId());
 			List<Candidate> candidateList = peoplewareDAO.getQualifiedCandidates(jobOfferDetail);
-			Map<Candidate,Integer> candidateMap = new HashMap<Candidate,Integer>();
-			Iterator itr = candidateList.iterator();
+			Map<Candidate, Integer> candidateMap = new HashMap<Candidate, Integer>();
+			Iterator<Candidate> itr = candidateList.iterator();
 			
 			while(itr.hasNext()) {
 				int score = 0;
 				candidate = (Candidate) itr.next();
-					Iterator it= candidate.getCandidateTechnicalSkills().iterator();
+					Iterator<CandidateTechnicalSkill> it= candidate.getCandidateTechnicalSkills().iterator();
 					
 					while(it.hasNext()) {	
 					CandidateTechnicalSkill skill= (CandidateTechnicalSkill) it.next();
@@ -220,6 +226,14 @@ public class PeoplewareServiceImpl implements PeoplewareService{
 			}
 			SortMap.sortByValues(candidateMap);
 			
+			
+			
+			for(Map.Entry<Candidate, Integer> entry : candidateMap.entrySet()){		
+				finalList.add(mapper.map(entry, CandidateDTO.class));	
+			 }
+			
+			cwp.setCandidateList(finalList);
+		response.setBaseDTO(cwp);
 		response.setMessage("Qualified Candidates for Job Offer");
 		response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
 		
@@ -234,7 +248,90 @@ public class PeoplewareServiceImpl implements PeoplewareService{
 
 	@Override
 	public BaseResponse candidateJobOffers(CandidateDTO candidateDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("start executing candidateJobOffers");		
+		BaseResponse response = new BaseResponse();
+		ModelMapper mapper = new ModelMapper();
+		JobOfferWrapper jwp =  new JobOfferWrapper();
+		List<JobOfferDTO> finalList = new ArrayList<JobOfferDTO>();
+		
+		try {
+			
+			Candidate candidateDetail = peoplewareDAO.getCandidate(candidateDTO.getId());
+			List<JobOffer> jobOfferList = peoplewareDAO.getQualifiedJobs(candidateDetail);
+		
+		
+			Iterator<JobOffer> itr = jobOfferList.iterator();
+			while(itr.hasNext()) {
+				finalList.add(mapper.map(itr.next(), JobOfferDTO.class));
+			}
+			
+			jwp.setJobOfferList(finalList);
+			response.setBaseDTO(jwp);
+			response.setMessage("Qualified Jobs for Candidate");
+			response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
+		}catch(Exception e) {
+			LOGGER.error(e);
+			response.setErrorMessage(e.getMessage());
+			response.setStatus(PeoplewareConstants.STATUS_FAILURE);
+		}
+		LOGGER.info("end executing candidateJobOffers");	
+		return response;
+	}
+
+	@Override
+	public BaseResponse postJobOffer(JobOfferDTO jobOfferDTO) {		
+		LOGGER.info("start executing postJobOffer");
+		ModelMapper mp = new ModelMapper();
+		BaseResponse response = new BaseResponse();
+
+		JobOffer jobOffer = null;
+		try {			
+		
+			jobOffer = peoplewareDAO.postJobOffer(mp.map(jobOfferDTO, JobOffer.class));
+			response.setBaseDTO(mp.map(jobOffer, JobOfferDTO.class));
+
+			response.setMessage("Job Posted successfully");
+			response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
+		
+		
+
+		
+		} catch (Exception e) {
+			LOGGER.error(e);
+			response.setErrorMessage(e.getMessage());
+			response.setStatus(PeoplewareConstants.STATUS_FAILURE);
+		}
+		LOGGER.info("end executing postJobOffer");
+		return response;
+	}
+
+	@Override
+	public BaseResponse getCompanyList() {
+		LOGGER.info("start executing getCompanyList");
+		ModelMapper mapper = new ModelMapper();
+		BaseResponse response = new BaseResponse();
+		CompanyWrapper cwp = new CompanyWrapper();
+		Company company = null;
+		try{
+			List<Company> companyList = peoplewareDAO.getCompanyList();
+			List<CompanyDTO> tempList = new ArrayList<CompanyDTO>();
+			
+			Iterator<Company> itr = companyList.iterator();
+			while(itr.hasNext()) {
+				tempList.add(mapper.map(itr.next(), CompanyDTO.class));	
+			}
+			
+			cwp.setCompanyList(tempList);
+			response.setBaseDTO(cwp);
+			response.setMessage("Fetch initial form data");
+			response.setStatus(PeoplewareConstants.STATUS_SUCCESS);
+			
+			} catch(Exception e) {
+				LOGGER.error(e);
+				response.setErrorMessage(e.getMessage());
+				response.setStatus(PeoplewareConstants.STATUS_FAILURE);
+			}
+		LOGGER.info("end executing getCompanyList");
+		return response;
 	}
 }

@@ -85,6 +85,7 @@
 		<value>com.maplesoft.peopleware.beans.entity.AcademicDegree</value>
 		<value>com.maplesoft.peopleware.beans.entity.TechnicalSkill</value>
 		<value>com.maplesoft.peopleware.beans.entity.CandidateTechnicalSkill</value>
+		<value>com.maplesoft.peopleware.beans.entity.JobOfferTechnicalSkill</value>
 	</util:list>
 
 </beans>

@@ -22,7 +22,7 @@ public class TechnicalSkill {
 	private BigInteger id;
 	private String name;
 	
-	@OneToMany(mappedBy="jobOfferTechnicalSkill", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="jobOfferSkill", fetch = FetchType.EAGER)
 	private Set<JobOfferTechnicalSkill> jobOfferTechnicalSkill = new HashSet<JobOfferTechnicalSkill>();
 
 	@OneToMany(mappedBy="technicalSkill", fetch = FetchType.EAGER)

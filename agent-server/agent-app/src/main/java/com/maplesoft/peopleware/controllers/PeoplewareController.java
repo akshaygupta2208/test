@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.ayursinfotech.agent.beans.dto.AgentDTO;
 import com.maplesoft.peopleware.beans.dto.CandidateDTO;
 import com.maplesoft.peopleware.beans.dto.JobOfferDTO;
 import com.maplesoft.peopleware.response.BaseResponse;
@@ -59,6 +58,14 @@ public class PeoplewareController {
 		return peoplewareService.getAllCandidates();
 	}
 	
+	@RequestMapping(value = "/getCompanyList", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public BaseResponse getCompanyList() {
+		LOGGER.info("inside getCompanyList");		
+		return peoplewareService.getCompanyList();
+	}
+	
 	@RequestMapping(value = "/listAlloffers", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
@@ -70,9 +77,9 @@ public class PeoplewareController {
 	@RequestMapping(value = "/postJobOffer", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
-	public BaseResponse postJobOffer() {
+	public BaseResponse postJobOffer(@RequestBody JobOfferDTO jobOfferDTO) {
 		LOGGER.info("inside postJobOffer");		
-		return peoplewareService.getAllOffers();
+		return peoplewareService.postJobOffer(jobOfferDTO);
 	}
 	
 	@RequestMapping(value = "/qualifiedCandidates", method = RequestMethod.POST)

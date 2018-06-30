@@ -1,26 +1,25 @@
 package com.maplesoft.peopleware.beans.dto;
 
 import java.math.BigInteger;
+import java.util.Set;
 
 import com.maplesoft.peopleware.beans.entity.AcademicDegree;
-import com.maplesoft.peopleware.beans.entity.TechnicalSkill;
+import com.maplesoft.peopleware.beans.entity.Company;
 
 public class JobOfferDTO extends BaseDTO {
 
-	private BigInteger jobOfferId;	
+	private BigInteger id;	
 	private String name;
 	private String description;
 	private double lowerSalaryRange;
 	private double upperSalaryRange;
 	private String workingTime;
 	private AcademicDegree academicDegree;
-	private TechnicalSkill technicalSkill;
-	public BigInteger getJobOfferId() {
-		return jobOfferId;
-	}
-	public void setJobOfferId(BigInteger jobOfferId) {
-		this.jobOfferId = jobOfferId;
-	}
+	private Set<JobOfferTechnicalSkillDTO> jobTechnicalSkills;
+	private Company company;
+
+	
+
 	public String getName() {
 		return name;
 	}
@@ -58,11 +57,24 @@ public class JobOfferDTO extends BaseDTO {
 	public void setAcademicDegree(AcademicDegree academicDegree) {
 		this.academicDegree = academicDegree;
 	}
-	public TechnicalSkill getTechnicalSkill() {
-		return technicalSkill;
+	public BigInteger getId() {
+		return id;
 	}
-	public void setTechnicalSkill(TechnicalSkill technicalSkill) {
-		this.technicalSkill = technicalSkill;
+	public void setId(BigInteger id) {
+		this.id = id;
 	}
+	public Set<JobOfferTechnicalSkillDTO> getJobTechnicalSkills() {
+		return jobTechnicalSkills;
+	}
+	public void setJobTechnicalSkills(Set<JobOfferTechnicalSkillDTO> jobTechnicalSkills) {
+		this.jobTechnicalSkills = jobTechnicalSkills;
+	}
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
 	
 }

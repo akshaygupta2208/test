@@ -2,7 +2,7 @@ package com.maplesoft.peopleware.beans.dto;
 
 import java.util.List;
 
-public class JobOfferWrapper extends JobOfferDTO{
+public class JobOfferWrapper extends BaseDTO{
 
 	private List<JobOfferDTO> jobOfferList;
 

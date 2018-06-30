@@ -14,4 +14,6 @@ public interface PeoplewareService {
 	BaseResponse getAllOffers();
 	BaseResponse qualifiedCandidates(JobOfferDTO jobOfferDTO);	
 	BaseResponse candidateJobOffers(CandidateDTO candidateDTO);
+	BaseResponse postJobOffer(JobOfferDTO jobOfferDTO);
+	BaseResponse getCompanyList();
 }

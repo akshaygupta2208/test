@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,8 +24,7 @@ public class Company {
 	private String name;
 	private String contact;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "job_offer_id", insertable = false, updatable = false)
+	@OneToMany(mappedBy="company", fetch = FetchType.EAGER)
 	private Set<JobOffer> jobOffers = new HashSet<JobOffer>();
 
 	public BigInteger getId() {

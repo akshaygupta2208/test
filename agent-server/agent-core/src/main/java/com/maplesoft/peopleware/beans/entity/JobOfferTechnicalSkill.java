@@ -22,11 +22,11 @@ public class JobOfferTechnicalSkill {
 	
 	@ManyToOne
 	@JoinColumn(name = "job_offer_id")
-	private JobOffer jobOffer;
+	private JobOffer jobOfferTech;
 	
 	@ManyToOne
 	@JoinColumn(name = "technical_skill_id")
-	private TechnicalSkill jobOfferTechnicalSkill;
+	private TechnicalSkill jobOfferSkill;
 	
 	@Column(name="rating")
 	private int rating;
@@ -39,20 +39,20 @@ public class JobOfferTechnicalSkill {
 		this.id = id;
 	}
 
-	public JobOffer getJobOffer() {
-		return jobOffer;
+	public JobOffer getJobOfferTech() {
+		return jobOfferTech;
 	}
 
-	public void setJobOffer(JobOffer jobOffer) {
-		this.jobOffer = jobOffer;
+	public void setJobOfferTech(JobOffer jobOfferTech) {
+		this.jobOfferTech = jobOfferTech;
 	}
 
-	public TechnicalSkill getJobOfferTechnicalSkill() {
-		return jobOfferTechnicalSkill;
+	public TechnicalSkill getJobOfferSkill() {
+		return jobOfferSkill;
 	}
 
-	public void setJobOfferTechnicalSkill(TechnicalSkill jobOfferTechnicalSkill) {
-		this.jobOfferTechnicalSkill = jobOfferTechnicalSkill;
+	public void setJobOfferSkill(TechnicalSkill jobOfferSkill) {
+		this.jobOfferSkill = jobOfferSkill;
 	}
 
 	public int getRating() {

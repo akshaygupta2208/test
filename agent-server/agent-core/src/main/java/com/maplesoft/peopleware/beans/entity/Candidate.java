@@ -44,6 +44,16 @@ public class Candidate {
 	public Candidate() {}
 	
 	
+	public AcademicDegree getAcademicDegree() {
+		return academicDegree;
+	}
+
+
+	public void setAcademicDegree(AcademicDegree academicDegree) {
+		this.academicDegree = academicDegree;
+	}
+
+
 	public BigInteger getId() {
 		return id;
 	}
@@ -100,16 +110,6 @@ public class Candidate {
 		this.workingTime = workingTime;
 	}
 	
-
-	public AcademicDegree getAcademicDegree() {
-		return academicDegree;
-	}
-
-
-	public void setAcademicDegree(AcademicDegree academicDegree) {
-		this.academicDegree = academicDegree;
-	}
-
 
 	public boolean isRegisteredCandidate(Candidate candidate) {
 	

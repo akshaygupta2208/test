@@ -60,7 +60,7 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">validate</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.current_session_context_class">thread</prop>
 
 				<!-- For singleton factory -->
@@ -85,6 +85,7 @@
 		<value>com.maplesoft.peopleware.beans.entity.AcademicDegree</value>
 		<value>com.maplesoft.peopleware.beans.entity.TechnicalSkill</value>
 		<value>com.maplesoft.peopleware.beans.entity.CandidateTechnicalSkill</value>
+		<value>com.maplesoft.peopleware.beans.entity.JobOfferTechnicalSkill</value>
 	</util:list>
 
 </beans>
