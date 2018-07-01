@@ -1,15 +1,11 @@
 package com.maplesoft.peopleware.beans.entity;
 
 import java.math.BigInteger;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,9 +20,6 @@ public class Company {
 	private String name;
 	private String contact;
 	
-	@OneToMany(mappedBy="company", fetch = FetchType.EAGER)
-	private Set<JobOffer> jobOffers = new HashSet<JobOffer>();
-
 	public BigInteger getId() {
 		return id;
 	}
@@ -49,14 +42,6 @@ public class Company {
 
 	public void setContact(String contact) {
 		this.contact = contact;
-	}
-
-	public Set<JobOffer> getJobOffers() {
-		return jobOffers;
-	}
-
-	public void setJobOffers(Set<JobOffer> jobOffers) {
-		this.jobOffers = jobOffers;
 	}
 
 

@@ -2,6 +2,7 @@ package com.maplesoft.peopleware.dao.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.ayursinfotech.agent.exception.NoRecordFoundException;
 import com.maplesoft.peopleware.beans.entity.AcademicDegree;
 import com.maplesoft.peopleware.beans.entity.Candidate;
+import com.maplesoft.peopleware.beans.entity.CandidateTechnicalSkill;
 import com.maplesoft.peopleware.beans.entity.Company;
 import com.maplesoft.peopleware.beans.entity.JobOffer;
 import com.maplesoft.peopleware.beans.entity.JobOfferTechnicalSkill;
@@ -38,7 +41,22 @@ public class PeoplewareDAOImpl implements PeoplewareDAO {
 		try {
 			Transaction tx = session.beginTransaction();
 
-			session.save(candidate);
+			BigInteger candidateId = (BigInteger) session.save(candidate);
+
+			for (CandidateTechnicalSkill je : candidate.getCandidateTechnicalSkills()) {
+				CandidateTechnicalSkill cts = new CandidateTechnicalSkill();
+				cts.setRating(je.getRating());
+
+				TechnicalSkill ts = new TechnicalSkill();
+				ts.setId(je.getId());
+				cts.setTechnicalSkill(ts);
+
+				Candidate cd = new Candidate();
+				cd.setId(candidateId);
+
+				cts.setCandidate(cd);
+				session.save(cts);
+			}
 			tx.commit();
 			LOGGER.info("end executing registerCandidate");
 
@@ -206,7 +224,11 @@ public class PeoplewareDAOImpl implements PeoplewareDAO {
 			for (JobOfferTechnicalSkill je : jobOffer.getJobTechnicalSkills()) {
 				JobOfferTechnicalSkill jts = new JobOfferTechnicalSkill();
 				jts.setRating(je.getRating());
-				jts.setJobOfferSkill(je.getJobOfferSkill());
+
+				TechnicalSkill ts = new TechnicalSkill();
+				ts.setId(je.getId());
+
+				jts.setJobOfferSkill(ts);
 
 				JobOffer jbOffer = new JobOffer();
 				jbOffer.setId(jb);
@@ -250,11 +272,26 @@ public class PeoplewareDAOImpl implements PeoplewareDAO {
 		Session session = sessionFactory.openSession();
 		List<JobOffer> jobOfferList = new ArrayList<JobOffer>();
 		try {
-
-			Criteria cr = session.createCriteria(JobOffer.class);
-			cr.add(Restrictions.gt("lowerSalaryRange", candidateDetail.getMinimumSalary()));
-			cr.add(Restrictions.in("technicalSkills", candidateDetail.getCandidateTechnicalSkills()));
-			cr.add(Restrictions.eq("academicDegree", candidateDetail.getAcademicDegree()));
+			List<TechnicalSkill> listOfSkills = new ArrayList<TechnicalSkill>();
+			Iterator<CandidateTechnicalSkill> itr = candidateDetail.getCandidateTechnicalSkills().iterator();
+			while (itr.hasNext()) {
+				listOfSkills.add(itr.next().getTechnicalSkill());
+			}
+			
+			Criteria cr = session.createCriteria(JobOffer.class, "job");
+			
+			cr.setProjection(Projections.distinct(Projections.property("job_offer_id")));
+			
+			if (!("BOTH".equals(candidateDetail.getWorkingTime()))) {
+				cr.add(Restrictions.eq("workingTime", candidateDetail.getWorkingTime()));
+			}
+			cr.createAlias("jobTechnicalSkills", "jobTechnicalSkills");
+			
+			cr.add(Restrictions.gt("job.lowerSalaryRange", candidateDetail.getMinimumSalary()));
+			cr.add(Restrictions.eq("job.academicDegree", candidateDetail.getAcademicDegree()));
+			cr.add(Restrictions.in("jobTechnicalSkills.jobOfferSkill", listOfSkills));
+			cr.add(Restrictions.ne("jobTechnicalSkills.rating", 0));
+			
 			jobOfferList = cr.list();
 
 			LOGGER.info("end executing getQualifiedJobs");

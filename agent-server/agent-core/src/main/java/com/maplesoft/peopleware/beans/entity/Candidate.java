@@ -11,48 +11,45 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pwr_candidate")
+@Table(name = "pwr_candidate")
 public class Candidate {
 
 	@Id
 	@Column(name = "candidate_id", columnDefinition = "bigint")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private BigInteger id;
-	@Column(name="first_name")
-	private String firstName;	
-	@Column(name="last_name")
+	@Column(name = "first_name")
+	private String firstName;
+	@Column(name = "last_name")
 	private String lastName;
 	private String email;
-	private String contact;	
-	@Column(name="minimum_salary")
+	private String contact;
+	@Column(name = "minimum_salary")
 	private double minimumSalary;
-	@Column(name="working_time")
+	@Column(name = "working_time")
 	private String workingTime;
-	
-	@OneToOne(fetch = FetchType.EAGER, optional=false)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "academic_degree_id")
 	private AcademicDegree academicDegree;
-	
-	@OneToMany(mappedBy="candidate", fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "candidate", fetch = FetchType.EAGER)
 	private Set<CandidateTechnicalSkill> candidateTechnicalSkills = new HashSet<CandidateTechnicalSkill>();
-	
-	public Candidate() {}
-	
-	
+
+	public Candidate() {
+	}
+
 	public AcademicDegree getAcademicDegree() {
 		return academicDegree;
 	}
 
-
 	public void setAcademicDegree(AcademicDegree academicDegree) {
 		this.academicDegree = academicDegree;
 	}
-
 
 	public BigInteger getId() {
 		return id;
@@ -109,10 +106,9 @@ public class Candidate {
 	public void setWorkingTime(String workingTime) {
 		this.workingTime = workingTime;
 	}
-	
 
 	public boolean isRegisteredCandidate(Candidate candidate) {
-	
+
 		return false;
 	}
 
@@ -131,7 +127,4 @@ public class Candidate {
 				+ ", academicDegree=" + academicDegree + ", candidateTechnicalSkills=" + candidateTechnicalSkills + "]";
 	}
 
-	
-	
-	
 }

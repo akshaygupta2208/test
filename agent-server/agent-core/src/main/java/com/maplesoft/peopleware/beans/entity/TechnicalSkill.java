@@ -1,15 +1,11 @@
 package com.maplesoft.peopleware.beans.entity;
 
 import java.math.BigInteger;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,12 +18,7 @@ public class TechnicalSkill {
 	private BigInteger id;
 	private String name;
 	
-	@OneToMany(mappedBy="jobOfferSkill", fetch = FetchType.EAGER)
-	private Set<JobOfferTechnicalSkill> jobOfferTechnicalSkill = new HashSet<JobOfferTechnicalSkill>();
 
-	@OneToMany(mappedBy="technicalSkill", fetch = FetchType.EAGER)
-	private Set<CandidateTechnicalSkill> candidateTechnicalSkills = new HashSet<CandidateTechnicalSkill>();
-	
 	public BigInteger getId() {
 		return id;
 	}
@@ -43,24 +34,5 @@ public class TechnicalSkill {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Set<CandidateTechnicalSkill> getCandidateTechnicalSkills() {
-		return candidateTechnicalSkills;
-	}
-
-	public void setCandidateTechnicalSkills(Set<CandidateTechnicalSkill> candidateTechnicalSkills) {
-		this.candidateTechnicalSkills = candidateTechnicalSkills;
-	}
-
-	public Set<JobOfferTechnicalSkill> getJobOfferTechnicalSkill() {
-		return jobOfferTechnicalSkill;
-	}
-
-	public void setJobOfferTechnicalSkill(Set<JobOfferTechnicalSkill> jobOfferTechnicalSkill) {
-		this.jobOfferTechnicalSkill = jobOfferTechnicalSkill;
-	}
-
-	
-	
 	
 }
